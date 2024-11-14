@@ -12,7 +12,7 @@ const Home = () => {
   const getTodos = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:2003/api/user/getTodos"
+        "https://todo-app-gmqh.onrender.com/api/user/getTodos"
       );
       settodos(data.todos);
     } catch (error) {
@@ -23,7 +23,7 @@ const Home = () => {
     try {
       e.preventDefault();
       const { data } = await axios.post(
-        "http://localhost:2003/api/user/uploadTodo",
+        "https://todo-app-gmqh.onrender.com/api/user/uploadTodo",
         {},
         { params: { todo } }
       );
@@ -41,7 +41,7 @@ const Home = () => {
 
       e.preventDefault();
       const { data } = await axios.delete(
-        "http://localhost:2003/api/user/deleteTodo",
+        "https://todo-app-gmqh.onrender.com/api/user/deleteTodo",
 
         { params: { id } }
       );
