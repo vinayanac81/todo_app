@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 const EditTodo = () => {
   const location = useLocation();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { todo, todoId } = location.state;
   const [updatedTodo, setupdatedTodo] = useState("");
-  useEffect(()=>{
-    setupdatedTodo(todo)
-  },[])
+  useEffect(() => {
+    setupdatedTodo(todo);
+  }, []);
   const updateTodo = async (e) => {
     try {
       e.preventDefault();
-      const { data } =await axios.put(
-        "  http://localhost:2003/api/user/updateTodo",
+      const { data } = await axios.put(
+        "https://todo-app-gmqh.onrender.com/api/user/updateTodo",
         {},
         { params: { updatedTodo, todoId } }
       );
-      if(data?.success){
-        toast.success(data?.msg)
-        navigate("/")
+      if (data?.success) {
+        toast.success(data?.msg);
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
