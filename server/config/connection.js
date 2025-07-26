@@ -9,7 +9,6 @@ const connect = async () => {
       }
     );
     console.log("Database Connected");
-    // console.log(process.env.MONGODB_URL);
   } catch (error) {
     console.error(error.message);
     process.exit(1);

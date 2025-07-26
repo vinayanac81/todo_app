@@ -12,7 +12,7 @@ const Home = () => {
   const getTodos = async () => {
     try {
       const { data } = await axios.get(
-        "https://todo-app-gmqh.onrender.com/api/user/getTodos"
+        "http://localhost:2003/api/user/getTodos"
       );
       settodos(data.todos);
     } catch (error) {
@@ -23,7 +23,7 @@ const Home = () => {
     try {
       e.preventDefault();
       const { data } = await axios.post(
-        "https://todo-app-gmqh.onrender.com/api/user/uploadTodo",
+        "http://localhost:2003/api/user/uploadTodo",
         {},
         { params: { todo } }
       );
@@ -41,12 +41,13 @@ const Home = () => {
 
       e.preventDefault();
       const { data } = await axios.delete(
-        "https://todo-app-gmqh.onrender.com/api/user/deleteTodo",
+        "http://localhost:2003/api/user/deleteTodo",
 
         { params: { id } }
       );
       if (data?.success) {
         toast.success(data?.msg);
+        location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -80,32 +81,34 @@ const Home = () => {
       {todos.length > 0 && (
         <>
           {todos.map((todo, id) => {
-            return (
-              <div
-                key={id}
-                className="flex mb-1 bg-slate-700 w-1/2 mx-auto justify-between px-6 py-4 text-white"
-              >
-                <h1>{todo?.todo}</h1>
-                <div className="flex gap-4">
-                  <button
-                    onClick={() => {
-                      navigate("/edit-todo/", {
-                        state: { todoId: todo?._id, todo: todo?.todo },
-                      });
-                    }}
-                    className="bg-green-600 px-4 rounded"
-                  >
-                    EDIT
-                  </button>
-                  <button
-                    onClick={(e) => deleteTodo(e, todo?._id)}
-                    className="px-4 rounded bg-red-700"
-                  >
-                    DELETE
-                  </button>
+            if (todo.active === true) {
+              return (
+                <div
+                  key={id}
+                  className="flex mb-1 bg-slate-700 w-1/2 mx-auto justify-between px-6 py-4 text-white"
+                >
+                  <h1>{todo?.todo}</h1>
+                  <div className="flex gap-4">
+                    <buttdeleteTodoon
+                      onClick={() => {
+                        navigate("/edit-todo/", {
+                          state: { todoId: todo?._id, todo: todo?.todo },
+                        });
+                      }}
+                      className="bg-green-600 px-4 rounded"
+                    >
+                      EDIT
+                    </buttdeleteTodoon>
+                    <button
+                      onClick={(e) => deleteTodo(e, todo?._id)}
+                      className="px-4 rounded bg-red-700"
+                    >
+                      DELETE
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
+              );
+            }
           })}
         </>
       )}
