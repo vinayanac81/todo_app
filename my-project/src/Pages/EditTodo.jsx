@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { todoStore } from "../store";
 const EditTodo = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { editTodo } = todoStore();
   const { todo, todoId } = location.state;
   const [updatedTodo, setupdatedTodo] = useState("");
   useEffect(() => {
@@ -13,15 +15,7 @@ const EditTodo = () => {
   const updateTodo = async (e) => {
     try {
       e.preventDefault();
-      const { data } = await axios.put(
-        "https://todo-app-gmqh.onrender.com/api/user/updateTodo",
-        {},
-        { params: { updatedTodo, todoId } }
-      );
-      if (data?.success) {
-        toast.success(data?.msg);
-        navigate("/");
-      }
+      editTodo(updatedTodo, todoId);
     } catch (error) {
       console.log(error);
     }

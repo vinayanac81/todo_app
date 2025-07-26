@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 export const uploadTodo = async (req, res) => {
   try {
+    console.log(req.query.todo);
+
     await todoModel.create({
       todo: req.query.todo,
     });
@@ -22,10 +24,10 @@ export const getTodos = async (req, res) => {
 export const updateTodo = async (req, res) => {
   try {
     await todoModel.updateOne(
-      { _id: new ObjectId(req.query.todoId) },
+      { _id: new ObjectId(req.query.id) },
       {
         $set: {
-          todo: req.query.updatedTodo,
+          todo: req.query.todo,
         },
       }
     );

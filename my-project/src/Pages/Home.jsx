@@ -2,19 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { todoStore } from "../store";
 const Home = () => {
   const navigate = useNavigate();
+  const { addTodo, todos, fetchTodos,removeTodo } = todoStore();
   const [todo, settodo] = useState("");
-  const [todos, settodos] = useState([]);
   useEffect(() => {
     getTodos();
   }, [todos]);
   const getTodos = async () => {
     try {
-      const { data } = await axios.get(
-        "http://localhost:2003/api/user/getTodos"
-      );
-      settodos(data.todos);
+      fetchTodos();
     } catch (error) {
       console.log(error);
     }
@@ -22,33 +20,15 @@ const Home = () => {
   const addTOTodos = async (e) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post(
-        "http://localhost:2003/api/user/uploadTodo",
-        {},
-        { params: { todo } }
-      );
-      if (data?.success) {
-        toast.success(data?.msg);
-      } else {
-      }
+      addTodo(todo);
     } catch (error) {
       console.log(error);
     }
   };
   const deleteTodo = async (e, id) => {
     try {
-      console.log(id);
-
       e.preventDefault();
-      const { data } = await axios.delete(
-        "http://localhost:2003/api/user/deleteTodo",
-
-        { params: { id } }
-      );
-      if (data?.success) {
-        toast.success(data?.msg);
-        location.reload();
-      }
+      removeTodo(id)
     } catch (error) {
       console.log(error);
     }
